@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">streaming-demo</string>
+    <string name="version_info">关于</string>
+    <string name="start_streaming">开始推流</string>
+    <string name="stop_streaming">停止推流</string>
+    <string name="switch_camera">切换摄像头</string>
+    <string name="picture_streaming">图片推流</string>
+    <string name="streaming_param">参数配置</string>>
+    <string name="input_streaming_url">请输入推流地址</string>
+</resources>
