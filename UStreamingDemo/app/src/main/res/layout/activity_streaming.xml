@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false">
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/start_streaming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/start_streaming" />
+
+    <Button
+        android:id="@+id/switch_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/start_streaming"
+        android:layout_toRightOf="@+id/start_streaming"
+        android:text="@string/switch_camera" />
+
+    <Button
+        android:id="@+id/switch_picture_streaming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/start_streaming"
+        android:layout_toRightOf="@id/switch_camera"
+        android:text="@string/picture_streaming" />
+
+    <Button
+        android:id="@+id/stop_streaming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/start_streaming"
+        android:layout_toRightOf="@id/switch_picture_streaming"
+        android:text="@string/stop_streaming" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false">
+
+        <com.movieous.streaming.demo.view.FocusIndicator
+            android:id="@+id/focus_indicator"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    </FrameLayout>
+
+</RelativeLayout>
