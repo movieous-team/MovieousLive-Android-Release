@@ -1,32 +1,36 @@
 # UStreaming-Android
 
-UStreaming-Android 是一个适用于 Android 平台的 RTMP 直播推流 SDK，可高度定制化和二次开发。
+UStreaming-Android is the RTMP live streaming SDK for Android platform that is highly customizable and secondary developed.
 
-## 功能特性
-  - [x] 支持 H.264 和 AAC 硬编
-  - [x] 支持 Android Min API 18（Android 4.3）及其以上版本
-  - [x] 支持 RTMP 封包及推流
-  - [x] 支持数据源回调，可自定义美颜
-  - [x] 支持摄像头动态切换
-  - [x] 支持自动对焦
-  - [x] 支持手动对焦
-  - [x] 支持麦克风静音
-  - [x] 支持闪光灯操作
-  - [x] 支持水印
-  - [x] 支持后台推流
-  - [x] 支持图片推流
-  - [x] 支持 arm64、armv7、armeabi、x86 等主流芯片体系架构
+*Read this in other languages: [English](README.md), [简体中文](README.zh-cn.md).*
+
+## Features list
+
+- [x] Support H.264 and AAC hard encoding
+- [x] Supports Android Min API 18 (Android 4.3) and later
+- [x] Support RTMP packet and push streaming
+- [x] Support data source callback, customizable beautification
+- [x] Support camera dynamic switching
+- [x] Support auto focus
+- [x] Support manual focus
+- [x] Support microphone mute
+- [x] Support flash operation
+- [x] Support watermark
+- [x] Support push streaming from backstage
+- [x] Support image push streaming
+- [x] Support the mainstream chip architecture such as arm64, armv7, armeabi, x86 and others
   
 ## UStreaming-Android Wiki
 
-请参考 wiki 文档：[UStreaming-Android 开发指南](https://github.com/movieous-team/MovieousLive-Android-Release/wiki)
+The wiki documentation: [UStreaming-Android Development Guide](https://github.com/movieous-team/MovieousLive-Android-Release/wiki) for your reference
 
-## 设备以及系统要求
+## Equipment and system requirements
 
-- 设备要求：搭载 Android 系统的设备
-- 系统要求：Android 4.3(API 18) 及其以上
+- Device Requirements: Devices with Android system
+- System Requirements: Android 4.3 (API 18) and later
 
-### 反馈及意见
-当你遇到任何问题时，可以通过在 GitHub 的 repo 提交 issues 来反馈问题，请尽可能的描述清楚遇到的问题，如果有错误信息也一同附带，并且在 Labels 中指明类型为 bug 或者其他。
+### Feedback and suggestions
 
-[通过这里查看已有的 issues 和提交 Bug。](https://github.com/movieous-team/MovieousLive-Android-Release/issues)
+Please feedback the problem by submitting issues on GitHub's repo if any problems you got, describe it as clearly as possible, It would be nice if an error message or screenshot also came together, and pointed out the type of bug or other issues in Labels.
+
+[View existing issues and submit bugs here](https://github.com/movieous/UPlayer/issues).
