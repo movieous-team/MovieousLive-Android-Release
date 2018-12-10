@@ -10,12 +10,22 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/video_record_button"
+            android:id="@+id/live_streaming_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:onClick="onClickStreaming"
-            android:text="@string/start_streaming"
+            android:text="@string/live_streaming"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/rtc_live_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:onClick="onClickRtcStreaming"
+            android:text="@string/rtc_live_streaming"
             android:textSize="20sp"
             android:textStyle="bold" />
 

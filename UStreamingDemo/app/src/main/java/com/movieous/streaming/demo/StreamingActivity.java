@@ -30,6 +30,7 @@ import com.movieous.streaming.UStreamingState;
 import com.movieous.streaming.UStreamingStateListener;
 import com.movieous.streaming.demo.utils.StreamingParams;
 import com.movieous.streaming.demo.view.FocusIndicator;
+import com.vender.fusdk.FuSDKManager;
 
 public class StreamingActivity extends AppCompatActivity implements UVideoFrameListener, UAudioFrameListener,
         UStreamingStateListener, UStatisticsInfoListener, UCameraFocusListener {
@@ -41,9 +42,10 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
     public static final String ENCODING_BITRATE_LEVEL = "EncodingBitrateLevel";
     public static final String STREAMING_URL = "StreamingUrl";
 
+    protected boolean mIsRtcStreamingEnabled;
     private UCameraParam mCameraParam;
     private UMicrophoneParam mMicrophoneParam;
-    private UVideoEncodeParam mVideoEncodeParam;
+    protected UVideoEncodeParam mVideoEncodeParam;
     private UAudioEncodeParam mAudioEncodeParam;
     private UWatermarkParam mWatermarkParam;
     private FocusIndicator mFocusIndicator;
@@ -51,18 +53,20 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
     private int mFocusIndicatorX;
     private int mFocusIndicatorY;
 
-    private Button mBtnStartStreaming;
+    protected Button mBtnStartStreaming;
     private Button mBtnSwitchCamera;
-    private Button mBtnStopStreaming;
+    protected Button mBtnStopStreaming;
     private Button mBtnSwitchPictureStreaming;
-    private TextView mTxtStreamingStateView;
+    protected TextView mTxtStreamingStateView;
     private TextView mTxtStaticsView;
-    private GLSurfaceView mPreview;
+    protected GLSurfaceView mPreview;
 
     private Handler mHandler = new Handler();
     private UStreamingManager mStreamingManager;
-    private String mStreamingUrl;
+    protected String mStreamingUrl;
     private boolean mIsRestreamingEnabled = false;
+
+    protected FuSDKManager mFuSDKManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +74,64 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_streaming);
-
         // response screen rotation event
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
         mStreamingUrl = getIntent().getStringExtra(STREAMING_URL);
+        initView();
+        initStreamingManager();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mStreamingManager.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mStreamingManager.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        stopStreaming();
+        mStreamingManager.destroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    private UCameraParam.CAMERA_FACING_ID chooseCameraFacingId() {
+        if (UCameraParam.hasCameraFacing(UCameraParam.CAMERA_FACING_ID.THIRD)) {
+            return UCameraParam.CAMERA_FACING_ID.THIRD;
+        } else if (UCameraParam.hasCameraFacing(UCameraParam.CAMERA_FACING_ID.FRONT)) {
+            return UCameraParam.CAMERA_FACING_ID.FRONT;
+        } else {
+            return UCameraParam.CAMERA_FACING_ID.BACK;
+        }
+    }
+
+    protected void startStreaming() {
+        mBtnStartStreaming.setEnabled(false);
+        mStreamingManager.startPublish(mStreamingUrl);
+        mBtnStopStreaming.setEnabled(true);
+    }
+
+    protected void stopStreaming() {
+        mBtnStopStreaming.setEnabled(false);
+        mHandler.removeCallbacksAndMessages(null);
+        mStreamingManager.stopPublish();
+        mBtnStartStreaming.setEnabled(true);
+    }
+
+    private void initView() {
+        mFuSDKManager = new FuSDKManager(this);
         mBtnStartStreaming = findViewById(R.id.start_streaming);
         mBtnSwitchCamera = findViewById(R.id.switch_camera);
         mBtnStopStreaming = findViewById(R.id.stop_streaming);
@@ -84,6 +140,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
         mTxtStaticsView = findViewById(R.id.streaming_statics);
         mFocusIndicator = findViewById(R.id.focus_indicator);
 
+        mBtnSwitchPictureStreaming.setEnabled(!mIsRtcStreamingEnabled);
         mBtnStartStreaming.setEnabled(false);
         mBtnStartStreaming.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +152,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
         mBtnSwitchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mStreamingManager.switchCamera();
-                mFocusIndicator.focusCancel();
+                switchCamera();
             }
         });
 
@@ -137,56 +193,6 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
                 return true;
             }
         });
-
-        initStreamingManager();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mStreamingManager.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mStreamingManager.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-        stopStreaming();
-        mStreamingManager.destroy();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
-    private UCameraParam.CAMERA_FACING_ID chooseCameraFacingId() {
-        if (UCameraParam.hasCameraFacing(UCameraParam.CAMERA_FACING_ID.THIRD)) {
-            return UCameraParam.CAMERA_FACING_ID.THIRD;
-        } else if (UCameraParam.hasCameraFacing(UCameraParam.CAMERA_FACING_ID.FRONT)) {
-            return UCameraParam.CAMERA_FACING_ID.FRONT;
-        } else {
-            return UCameraParam.CAMERA_FACING_ID.BACK;
-        }
-    }
-
-    private void startStreaming() {
-        mBtnStartStreaming.setEnabled(false);
-        mStreamingManager.startPublish(mStreamingUrl);
-        mBtnStopStreaming.setEnabled(true);
-    }
-
-    private void stopStreaming() {
-        mBtnStopStreaming.setEnabled(false);
-        mHandler.removeCallbacksAndMessages(null);
-        mStreamingManager.stopPublish();
-        mBtnStartStreaming.setEnabled(true);
     }
 
     private void initStreamingManager() {
@@ -213,6 +219,9 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
         mAudioEncodeParam.setChannels(StreamingParams.AUDIO_CHANNEL_NUM[audioChannelNumPos]);
         // 推流核心类
         mStreamingManager = new UStreamingManager();
+        if (mIsRtcStreamingEnabled) {
+            mStreamingManager.setAudioCaptureEnabled(false);
+        }
         mStreamingManager.setStreamingStateListener(StreamingActivity.this);
         mStreamingManager.setVideoFrameListener(StreamingActivity.this);
         mStreamingManager.setAudioFrameListener(StreamingActivity.this);
@@ -240,6 +249,19 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
         }, delayMills);
     }
 
+    protected void startAudioCapture() {
+        mStreamingManager.startAudioCapture();
+    }
+
+    protected void stopAudioCapture() {
+        mStreamingManager.stopAudioCapture();
+    }
+
+    protected void switchCamera() {
+        mStreamingManager.switchCamera();
+        mFocusIndicator.focusCancel();
+    }
+
     /**
      * Called when the surface is created or recreated.
      * To be called in {@link GLSurfaceView.Renderer#onSurfaceCreated}
@@ -247,6 +269,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public void onSurfaceCreated() {
+        mFuSDKManager.getPreviewFilterEngine().loadItems();
     }
 
     /**
@@ -264,6 +287,10 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public void onSurfaceDestroy() {
+        mFuSDKManager.getPreviewFilterEngine().destroyItems();
+        synchronized (this) {
+            mFuSDKManager.destroyPreviewFilterEngine();
+        }
     }
 
     /**
@@ -279,7 +306,11 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs, float[] transformMatrix) {
-        return texId;
+        int outTexId = texId;
+        synchronized (this) {
+            outTexId = mFuSDKManager.getPreviewFilterEngine().onDrawFrame(texId, texWidth, texHeight);
+        }
+        return outTexId;
     }
 
     /**
@@ -331,7 +362,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
                 break;
             case DISCONNECTED:
                 mTxtStreamingStateView.setText(mIsRestreamingEnabled ? "RESTREAMING" : "DISCONNECTED");
-                if (mIsRestreamingEnabled) {
+                if (mIsRestreamingEnabled && !mIsRtcStreamingEnabled) {
                     reStreaming(2000);
                 }
                 break;
@@ -343,7 +374,9 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
                 break;
             case ERROR:
                 mTxtStreamingStateView.setText("ERROR");
-                mIsRestreamingEnabled = true;
+                if (!mIsRtcStreamingEnabled) {
+                    mIsRestreamingEnabled = true;
+                }
                 stopStreaming();
                 break;
         }

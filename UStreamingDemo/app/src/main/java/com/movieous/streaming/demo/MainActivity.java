@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         // restore data.
         mSharedPreferences = getSharedPreferences("MovieousStreaming", MODE_PRIVATE);
         mStreamingUrl = mSharedPreferences.getString("streamingUrl", mStreamingUrl);
-
         initView();
     }
 
@@ -99,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickRtcStreaming(View v) {
+        if (isPermissionOK()) {
+            jumpToStreamingActivity(RTCStreamingActivity.class);
+        }
+    }
+
     private void jumpToActivity(Class<?> cls) {
         Intent intent = new Intent(MainActivity.this, cls);
         startActivity(intent);
@@ -129,8 +134,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpToStreamingActivity() {
+        jumpToStreamingActivity(StreamingActivity.class);
+    }
+
+    public void jumpToStreamingActivity(Class<?> cls) {
         mStreamingUrl = mUrlEditText.getText().toString();
-        Intent intent = new Intent(MainActivity.this, StreamingActivity.class);
+        Intent intent = new Intent(MainActivity.this, cls);
         intent.putExtra(StreamingActivity.STREAMING_URL, mStreamingUrl);
         intent.putExtra(StreamingActivity.PREVIEW_SIZE_RATIO, mPreviewSizeRatioSpinner.getSelectedItemPosition());
         intent.putExtra(StreamingActivity.PREVIEW_SIZE_LEVEL, mPreviewSizeLevelSpinner.getSelectedItemPosition());

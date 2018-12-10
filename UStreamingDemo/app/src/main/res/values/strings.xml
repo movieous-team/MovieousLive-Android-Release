@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">streaming-demo</string>
     <string name="version_info">关于</string>
+    <string name="live_streaming">直播推流</string>
+    <string name="rtc_live_streaming">互动直播</string>
     <string name="start_streaming">开始推流</string>
     <string name="stop_streaming">停止推流</string>
+    <string name="start_rtc_streaming">开始连麦</string>
+    <string name="stop_rtc_streaming">停止连麦</string>
     <string name="switch_camera">切换摄像头</string>
     <string name="picture_streaming">图片推流</string>
     <string name="streaming_param">参数配置</string>>
     <string name="input_streaming_url">请输入推流地址</string>
+
+    <string name="agora_app_id">e60c1f4119b74b5c93d3c3a9f79a3d9c</string>
 </resources>
