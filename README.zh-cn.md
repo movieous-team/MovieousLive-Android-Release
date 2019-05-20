@@ -22,7 +22,7 @@ UStreaming-Android 是一个适用于 Android 平台的 RTMP 直播推流 SDK，
   
 ## UStreaming-Android Wiki
 
-请参考 wiki 文档：[UStreaming-Android 开发指南](https://github.com/movieous-team/MovieousLive-Android-Release/wiki)
+请参考 wiki 文档：[UStreaming-Android 开发指南](https://developer.movieous.cn/#/Android_Live)
 
 ## 设备以及系统要求
 

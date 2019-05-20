@@ -22,7 +22,7 @@ UStreaming-Android is the RTMP live streaming SDK for Android platform that is h
   
 ## UStreaming-Android Wiki
 
-The wiki documentation: [UStreaming-Android Development Guide](https://github.com/movieous-team/MovieousLive-Android-Release/wiki) for your reference
+The wiki documentation: [UStreaming-Android Development Guide](https://developer.movieous.cn/#/Android_Live) for your reference
 
 ## Equipment and system requirements
 
@@ -33,4 +33,4 @@ The wiki documentation: [UStreaming-Android Development Guide](https://github.co
 
 Please feedback the problem by submitting issues on GitHub's repo if any problems you got, describe it as clearly as possible, It would be nice if an error message or screenshot also came together, and pointed out the type of bug or other issues in Labels.
 
-[View existing issues and submit bugs here](https://github.com/movieous/UPlayer/issues).
+[View existing issues and submit bugs here](https://github.com/movieous-team/MovieousLive-Android-Release/issues).
