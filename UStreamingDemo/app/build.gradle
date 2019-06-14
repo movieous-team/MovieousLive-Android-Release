@@ -3,8 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         applicationId "com.movieous.streaming.demo"
         minSdkVersion 18
@@ -24,12 +22,22 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
+    }
+}
+
 dependencies {
     implementation files('libs/ustreaming-1.0.6.jar')
+    compile project(path: ':kiwi')
+    api(name: 'kw-filter', ext: 'aar')
+    api(name: 'kw-tracker', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 }

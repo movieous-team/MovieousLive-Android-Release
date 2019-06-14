@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.kiwi.ui.KwControlView;
 import com.movieous.capture.UAudioFrameListener;
 import com.movieous.capture.UCameraParam;
 import com.movieous.capture.UCameraFocusListener;
@@ -28,6 +29,7 @@ import com.movieous.streaming.UStatisticsInfoListener;
 import com.movieous.streaming.UStreamingManager;
 import com.movieous.streaming.UStreamingState;
 import com.movieous.streaming.UStreamingStateListener;
+import com.movieous.streaming.demo.kiwi.KwTrackerWrapper;
 import com.movieous.streaming.demo.utils.StreamingParams;
 import com.movieous.streaming.demo.view.FocusIndicator;
 
@@ -63,6 +65,13 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
     private UStreamingManager mStreamingManager;
     private String mStreamingUrl;
     private boolean mIsRestreamingEnabled = false;
+
+    protected KwTrackerWrapper mKwTrackWrapper;
+    protected KwControlView mKwControlView;
+    protected int mSurfaceWidth;
+    protected int mSurfaceHeight;
+    private boolean mIsKwOnSurfaceCreatedInvoked;
+    private boolean mIsKwOnSurfaceChangedInvoked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,24 +147,46 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
             }
         });
 
+        // kiwi
+        findViewById(R.id.builtin_beauty).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getTag() != null) {
+                    mKwControlView.setVisibility(View.INVISIBLE);
+                    v.setTag(null);
+                } else {
+                    mKwControlView.setVisibility(View.VISIBLE);
+                    v.setTag(1);
+                }
+
+            }
+        });
+        mKwTrackWrapper = new KwTrackerWrapper(this);
+        mKwTrackWrapper.onCreate(this);
+        mKwControlView = findViewById(R.id.kiwi_control_layout);
+        mKwControlView.setOnEventListener(mKwTrackWrapper.initUIEventListener());
+
         initStreamingManager();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mKwTrackWrapper.onResume(this);
         mStreamingManager.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mKwTrackWrapper.onPause(this);
         mStreamingManager.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mKwTrackWrapper.onDestroy(this);
         mHandler.removeCallbacksAndMessages(null);
         stopStreaming();
         mStreamingManager.destroy();
@@ -247,6 +278,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public void onSurfaceCreated() {
+        mKwTrackWrapper.onSurfaceCreated(this);
     }
 
     /**
@@ -257,6 +289,8 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public void onSurfaceChanged(int width, int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
     }
 
     /**
@@ -264,6 +298,7 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public void onSurfaceDestroy() {
+        mKwTrackWrapper.onSurfaceDestroyed();
     }
 
     /**
@@ -279,7 +314,12 @@ public class StreamingActivity extends AppCompatActivity implements UVideoFrameL
      **/
     @Override
     public int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs, float[] transformMatrix) {
-        return texId;
+        if (mKwTrackWrapper == null) return texId;
+        if (!mIsKwOnSurfaceChangedInvoked) {
+            mIsKwOnSurfaceChangedInvoked = true;
+            mKwTrackWrapper.onSurfaceChanged(mSurfaceWidth, mSurfaceHeight, texWidth, texHeight);
+        }
+        return mKwTrackWrapper.onDrawFrame(texId, texWidth, texHeight);
     }
 
     /**
