@@ -1,36 +1,36 @@
-# UStreaming-Android
+# MovieousLive-Android
 
-UStreaming-Android is the RTMP live streaming SDK for Android platform that is highly customizable and secondary developed.
+MovieousLive-Android 是 Movieous 研发的适用于 Android 平台的一站式 RTMP 直播推流 SDK。它提供简单易用的 API，兼容多机型及系统版本，拥有出色的性能、丰富的功能，支持包括美颜，特效，变声等在内的丰富第三方生态。集成 SDK 能够让开发者快速构建一款优秀的手机直播 app。
 
-*Read this in other languages: [English](README.md), [简体中文](README.zh-cn.md).*
+*其他语言版本: [English](README.en-us.md), [简体中文](README.md).*
 
-## Features list
+## 功能特性
 
-- [x] Support H.264 and AAC hard encoding
-- [x] Supports Android Min API 18 (Android 4.3) and later
-- [x] Support RTMP packet and push streaming
-- [x] Support data source callback, customizable beautification
-- [x] Support camera dynamic switching
-- [x] Support auto focus
-- [x] Support manual focus
-- [x] Support microphone mute
-- [x] Support flash operation
-- [x] Support watermark
-- [x] Support push streaming from backstage
-- [x] Support image push streaming
-- [x] Support the mainstream chip architecture such as arm64, armv7, armeabi, x86 and others
+- [x] 支持 H.264 和 AAC 硬编
+- [x] 支持 Android Min API 18（Android 4.3）及其以上版本
+- [x] 支持 RTMP 封包及推流
+- [x] 支持数据源回调，可自定义美颜
+- [x] 支持摄像头动态切换
+- [x] 支持自动对焦
+- [x] 支持手动对焦
+- [x] 支持麦克风静音
+- [x] 支持闪光灯操作
+- [x] 支持水印
+- [x] 支持后台推流
+- [x] 支持图片推流
+- [x] 支持 arm64、armv7、armeabi、x86 等主流芯片体系架构
   
 ## UStreaming-Android Wiki
 
-The wiki documentation: [UStreaming-Android Development Guide](https://developer.movieous.cn/#/Android_Live) for your reference
+请参考 wiki 文档：[UStreaming-Android 开发指南](https://developer.movieous.cn/#/Android_Live)
 
-## Equipment and system requirements
+## 设备以及系统要求
 
-- Device Requirements: Devices with Android system
-- System Requirements: Android 4.3 (API 18) and later
+- 设备要求：搭载 Android 系统的设备
+- 系统要求：Android 4.3(API 18) 及其以上
 
-### Feedback and suggestions
+### 反馈及意见
 
-Please feedback the problem by submitting issues on GitHub's repo if any problems you got, describe it as clearly as possible, It would be nice if an error message or screenshot also came together, and pointed out the type of bug or other issues in Labels.
+当你遇到任何问题时，可以通过在 GitHub 的 repo 提交 issues 来反馈问题，请尽可能的描述清楚遇到的问题，如果有错误信息也一同附带，并且在 Labels 中指明类型为 bug 或者其他。
 
-[View existing issues and submit bugs here](https://github.com/movieous-team/MovieousLive-Android-Release/issues).
+[通过这里查看已有的 issues 和提交 Bug。](https://github.com/movieous-team/MovieousLive-Android-Release/issues)
